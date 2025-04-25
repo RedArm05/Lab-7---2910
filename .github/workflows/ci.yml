@@ -14,18 +14,22 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore "Lab 6 - Tests.csproj"
+      - name: Restore dependencies
+        run: |
+          dotnet restore "Lab5 - Elijah Mckeehan/Lab5 - Elijah Mckeehan.csproj"
+          dotnet restore "Lab 6 - Tests.csproj"
 
-    - name: Build tests
-      run: dotnet build "Lab 6 - Tests.csproj" --no-restore
+      - name: Build projects
+        run: |
+          dotnet build "Lab5 - Elijah Mckeehan/Lab5 - Elijah Mckeehan.csproj" --no-restore
+          dotnet build "Lab 6 - Tests.csproj" --no-restore
 
-    - name: Run tests
-      run: dotnet test "Lab 6 - Tests.csproj" --no-build --verbosity normal
+      - name: Run tests
+        run: dotnet test "Lab 6 - Tests.csproj" --no-build --verbosity normal
