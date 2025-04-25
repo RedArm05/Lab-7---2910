@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Bunit" Version="1.39.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+	  <FrameworkReference Include="Microsoft.AspNetCore.App" />
 	  <PackageReference Include="MSTest.TestAdapter" Version="3.6.4" />
 	  <PackageReference Include="MSTest.TestFramework" Version="3.6.4" />
 	  <PackageReference Include="Moq" Version="4.20.72" />
