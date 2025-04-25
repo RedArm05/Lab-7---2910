@@ -1,0 +1,120 @@
+﻿@page "/books"
+@using Lab5_Elijah_Mckeehan.Shared
+@using Lab5_Elijah_Mckeehan.Services
+@inject ILibraryService LibraryService
+@inject IMessageService MessageService
+@namespace Lab5_Elijah_Mckeehan.Components.Pages
+<h1 class="text-2xl font-bold mb-4">Book List</h1>
+
+<!-- Add New Book Form -->
+<div class="mb-4">
+    <h2 class="text-xl font-semibold">Add New Book</h2>
+    <div>
+        <label for="bookTitle" class="block">Title</label>
+        <input id="bookTitle" @bind="newBookTitle" class="border p-2 w-full mb-2" type="text" placeholder="Enter book title" />
+
+        <label for="bookAuthor" class="block">Author</label>
+        <input id="bookAuthor" @bind="newBookAuthor" class="border p-2 w-full mb-2" type="text" placeholder="Enter author's name" />
+
+        <label for="bookISBN" class="block">ISBN</label>
+        <input id="bookISBN" @bind="newBookISBN" class="border p-2 w-full mb-4" type="text" placeholder="Enter book ISBN" />
+
+        <button @onclick="AddNewBook" class="bg-blue-500 text-white px-4 py-2 rounded">Add Book</button>
+    </div>
+</div>
+
+@if (books == null)
+{
+    <p>Loading books...</p>
+}
+else if (books.Count == 0)
+{
+    <p>No books available.</p>
+}
+else
+{
+    <table class="table-auto w-full border">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="px-4 py-2">Title</th>
+                <th class="px-4 py-2">Author</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in books)
+            {
+                <tr>
+                    <td class="px-4 py-2">@book.Title</td>
+                    <td class="px-4 py-2">@book.Author</td>
+                    <td class="px-4 py-2">
+                        <button class="bg-blue-500 text-white px-4 py-2" @onclick="() => EditBook(book)">Edit</button>
+                        <button class="bg-red-500 text-white px-4 py-2" @onclick="() => DeleteBook(book.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private string newBookTitle;
+    private string newBookAuthor;
+    private string newBookISBN;
+    private List<Book> books;
+
+    protected override void OnInitialized()
+    {
+        books = LibraryService.GetBooks();
+    }
+
+    private void AddNewBook()
+    {
+        if (!string.IsNullOrEmpty(newBookTitle) && !string.IsNullOrEmpty(newBookAuthor))
+        {
+            var newBook = new Book
+                {
+                    Id = GetNewBookId(),  // Set the Id here
+                    Title = newBookTitle,
+                    Author = newBookAuthor,
+                    ISBN = newBookISBN
+                };
+
+            LibraryService.AddBook(newBook);
+            books = LibraryService.GetBooks(); // Refresh the book list
+            ResetForm();
+        }
+    }
+
+    private int GetNewBookId()
+    {
+        return books.Any() ? books.Max(b => b.Id) + 1 : 1; // Return next available Id, or 1 if no books exist
+    }
+
+    private void ResetForm()
+    {
+        newBookTitle = string.Empty;
+        newBookAuthor = string.Empty;
+        newBookISBN = string.Empty;
+    }
+
+    // Define the EditBook method
+    private void EditBook(Book book)
+    {
+        //Display the book details in a form for editing
+        newBookTitle = book.Title;
+        newBookAuthor = book.Author;
+        newBookISBN = book.ISBN;
+
+    }
+
+    // Define the DeleteBook method
+    private void DeleteBook(int bookId)
+    {
+        // Call the delete method from your LibraryService to delete the book by its ID
+        LibraryService.DeleteBook(bookId);
+
+        // Refresh the book list
+        books = LibraryService.GetBooks();
+    }
+}
