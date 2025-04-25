@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Your Blazor WebAssembly App</title>
+    <base href="/" />
+
+    <!-- Link to CSS file -->
+    <link href="Lab%205%20-%20Elijah%20Mckeehan.styles.css" rel="stylesheet" />
+
+    <!-- FileSaver.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.png" />
+</head>
+<body>
+    <app>Loading...</app>
+
+    <!-- Blazor WebAssembly script -->
+    <script src="_framework/blazor.webassembly.js"></script>
+
+    <script>
+        function saveAsFile(fileName, content) {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(content);
+            link.download = fileName;
+            link.click();
+        }
+    </script>
+</body>
+</html>

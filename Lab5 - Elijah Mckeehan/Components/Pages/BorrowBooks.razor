@@ -1,0 +1,78 @@
+﻿@page "/borrow"
+@using Lab5_Elijah_Mckeehan.Shared
+@using Lab5_Elijah_Mckeehan.Services
+@inject ILibraryService LibraryService
+@inject IMessageService MessageService
+@namespace Lab5_Elijah_Mckeehan.Components.Pages
+
+<h1 class="text-2xl font-bold mb-4">Borrow Book</h1>
+
+<div>
+    <label for="userSelect" class="block">Select User</label>
+    <select id="userSelect" @bind="selectedUserId" class="border p-2 w-full mb-4">
+        <option value="">Select User</option>
+        @foreach (var user in users)
+        {
+            <option value="@user.Id">@user.Name</option>
+        }
+    </select>
+
+    <label for="bookSelect" class="block">Select Book</label>
+    <select id="bookSelect" @bind="selectedBookId" class="border p-2 w-full mb-4">
+        <option value="">Select Book</option>
+        @foreach (var book in availableBooks)
+        {
+            <option value="@book.Id">@book.Title</option>
+        }
+    </select>
+
+    <button class="bg-red-500 text-white px-4 py-2" @onclick="BorrowBook" disabled="@(!CanBorrow)">Borrow Book</button>
+</div>
+
+@if (!availableBooks.Any())
+{
+    <p>No available books to borrow.</p>
+}
+
+@code {
+    private int selectedUserId;
+    private int selectedBookId;
+    private List<Book> availableBooks = new List<Book>();
+    private List<User> users = new List<User>();
+
+   
+    private bool CanBorrow => selectedUserId != 0 && selectedBookId != 0;
+
+    protected override void OnInitialized()
+    {
+        // Load users from the service
+        users = LibraryService.GetUsers();
+     
+        // Load available books (books that are not borrowed)
+        availableBooks = LibraryService.GetAvailableBooks(); // Make sure you're calling GetAvailableBooks()
+
+        
+    }
+
+    private void BorrowBook()
+    {
+        var user = users.FirstOrDefault(u => u.Id == selectedUserId);
+        var book = availableBooks.FirstOrDefault(b => b.Id == selectedBookId);
+
+        if (user == null || book == null)
+        {
+            // Handle the case where no valid user or book is selected
+            MessageService.AddMessage("❌ Please select a valid user and book.");
+            return;
+        }
+
+        // Call the service method to borrow the book
+        LibraryService.BorrowBook(user.Id, book.Id);
+
+        // After borrowing, update the available books list
+        availableBooks = LibraryService.GetAvailableBooks();
+
+        // Optionally, show a success message
+        MessageService.AddMessage($"📚 {user.Name} successfully borrowed {book.Title}.");
+    }
+}

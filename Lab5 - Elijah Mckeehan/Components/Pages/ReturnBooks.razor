@@ -1,0 +1,86 @@
+﻿@page "/returns"
+@using Lab5_Elijah_Mckeehan.Shared
+@using Lab5_Elijah_Mckeehan.Services
+@inject ILibraryService LibraryService
+@inject IMessageService MessageService
+<h1 class="text-2xl font-bold mb-4">Return Book</h1>
+
+@if (borrowedBooks == null || !borrowedBooks.Any())
+{
+    <p>No borrowed books available.</p>
+}
+else
+{
+    <table class="table-auto w-full border">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="px-4 py-2">Title</th>
+                <th class="px-4 py-2">Author</th>
+                <th class="px-4 py-2">Borrowed By</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var borrowedBookEntry in borrowedBooks)
+            {
+                var userId = borrowedBookEntry.Key;
+                var borrowedBookIds = borrowedBookEntry.Value;
+
+                foreach (var bookId in borrowedBookIds)
+                {
+                    var book = LibraryService.GetBooks().FirstOrDefault(b => b.Id == bookId);
+                    var user = LibraryService.GetUsers().FirstOrDefault(u => u.Id == userId);
+
+                    if (book != null && user != null)
+                    {
+                        <tr>
+                            <td class="px-4 py-2">@book.Title</td>
+                            <td class="px-4 py-2">@book.Author</td>
+                            <td class="px-4 py-2">@user.Name</td>
+                            <td class="px-4 py-2">
+                                <button class="bg-green-500 text-white px-4 py-2" @onclick="() => ReturnBook(user.Id, book.Id)">Return</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Dictionary<int, List<int>> borrowedBooks;
+
+    protected override void OnInitialized()
+    {
+        borrowedBooks = LibraryService.GetAllBorrowedBooks();
+    }
+
+    public void ReturnBook(int userId, int bookId)
+    {
+        var borrowedBook = borrowedBooks.FirstOrDefault(bb => bb.Key == userId && bb.Value.Contains(bookId));
+
+        if (borrowedBook.Key != 0) // If a valid borrowedBook entry is found
+        {
+            // Remove the book from the user's borrowed list
+            borrowedBook.Value.Remove(bookId);
+
+            if (!borrowedBook.Value.Any()) // If the user has no borrowed books left
+            {
+                borrowedBooks.Remove(borrowedBook.Key); // Remove the user if they have no books
+            }
+
+            var book = LibraryService.GetBooks().FirstOrDefault(b => b.Id == bookId);
+            if (book != null)
+            {
+                book.IsBorrowed = false; // Mark book as available
+            }
+
+            // Save the updated borrowedBooks dictionary back to the JSON file
+            LibraryService.SaveBorrowedBooks();
+            LibraryService.SaveBooks(); // Save updated book status
+
+            MessageService.AddMessage($"User {userId} returned book {bookId}.");
+        }
+    }
+}
