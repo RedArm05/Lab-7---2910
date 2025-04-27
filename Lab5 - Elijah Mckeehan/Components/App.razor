@@ -4,8 +4,12 @@
 @using Microsoft.AspNetCore.Components.Web
 
 <Router AppAssembly="@typeof(Program).Assembly">
-    <RouteView RouteData="@routeData" DefaultLayout="typeof(MainLayout)" />
-    <FocusOnLoad RouteData="@routeData" />
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" />
+    </Found>
+    <NotFound>
+        <p>Sorry, the page you're looking for could not be found.</p>
+    </NotFound>
 </Router>
 
 @code {
