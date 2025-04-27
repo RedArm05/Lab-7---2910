@@ -1,6 +1,6 @@
-using Lab5_Elijah_Mckeehan;
-using Lab5_Elijah_Mckeehan.Services;
-using Lab5_Elijah_Mckeehan.Shared;
+using Lab5 - Elijah Mckeehan;
+using Lab5 - Elijah Mckeehan.Services;
+using Lab5 - Elijah Mckeehan.Shared;
 using Moq;
 
 namespace Lab_6___Tests
