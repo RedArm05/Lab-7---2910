@@ -1,20 +1,13 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+@using Lab5_Elijah_Mckeehan.Components
+@using Lab5_Elijah_Mckeehan.Shared
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="/" />
-    <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="app.css" />
-    <link rel="stylesheet" href="Lab5 - Elijah Mckeehan.styles.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <HeadOutlet @rendermode="InteractiveServer" />
-</head>
+<Router AppAssembly="@typeof(Program).Assembly">
+    <RouteView RouteData="@routeData" DefaultLayout="typeof(MainLayout)" />
+    <FocusOnLoad RouteData="@routeData" />
+</Router>
 
-<body>
-    <Routes @rendermode="InteractiveServer" />
-    <script src="_framework/blazor.web.js"></script>
-</body>
-
-</html>
+@code {
+    private RouteData routeData;
+}
