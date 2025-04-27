@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-	  <ProjectReference Include="Lab5 - Elijah Mckeehan/Lab5 - Elijah Mckeehan.csproj" />
+	  <ProjectReference Include="../Lab5 - Elijah Mckeehan/Lab5 - Elijah Mckeehan.csproj" />
   </ItemGroup>
 
 </Project>
