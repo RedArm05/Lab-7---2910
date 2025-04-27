@@ -1,10 +1,6 @@
-using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Lab5_Elijah_Mckeehan.Services;
 using Lab5_Elijah_Mckeehan.Shared;
-using Lab5_Elijah_Mckeehan.Server.Controllers;
 
 namespace Lab_6___Tests
 {
@@ -220,6 +216,7 @@ namespace Lab_6___Tests
             _service.AddUser(user);
 
             var newService = new LibraryService(_mockMessageService.Object);
+            newService.LoadUsers();
             var loadedUsers = newService.GetUsers();
 
             Assert.IsTrue(loadedUsers.Any(u => u.Name == "Persistent User"));
