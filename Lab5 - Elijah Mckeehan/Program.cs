@@ -1,5 +1,4 @@
 using Lab5_Elijah_Mckeehan.Components;
-using Lab5_Elijah_Mckeehan.Shared;
 using Lab5_Elijah_Mckeehan.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,8 +23,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-// Ensure you're using the correct namespace for App
-// If App.razor exists, this should work:
 app.MapRazorComponents()
     .AddInteractiveServerRenderMode();
 
