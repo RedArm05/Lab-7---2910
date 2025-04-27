@@ -4,7 +4,8 @@ using Moq;
 using Lab5_Elijah_Mckeehan;
 using Lab5_Elijah_Mckeehan.Services;
 using Lab5_Elijah_Mckeehan.Shared;
-
+using Lab5_Elijah_Mckeehan.Controllers;
+    
 namespace Lab_6___Tests
 {
     [TestClass]
