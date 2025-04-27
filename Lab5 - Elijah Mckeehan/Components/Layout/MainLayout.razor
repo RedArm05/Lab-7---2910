@@ -30,6 +30,23 @@
 <!-- Error message UI -->
 <div id="blazor-error-ui" class="alert alert-danger text-center m-3" style="display: none;">
     An unhandled error has occurred.
-    <a href="" class="reload text-decoration-underline">Reload</a>
-    <a class="dismiss ms-2" style="cursor: pointer;">🗙</a>
+    <a href="" class="reload text-decoration-underline" @onclick="ReloadPage">Reload</a>
+    <a class="dismiss ms-2" style="cursor: pointer;" @onclick="DismissError">🗙</a>
 </div>
+
+@code {
+    private void ReloadPage()
+    {
+        // Reload the page (or redirect as needed)
+        NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+    }
+
+    private void DismissError()
+    {
+        var errorDiv = document.getElementById("blazor-error-ui");
+        if (errorDiv != null)
+        {
+            errorDiv.style.display = "none";
+        }
+    }
+}
