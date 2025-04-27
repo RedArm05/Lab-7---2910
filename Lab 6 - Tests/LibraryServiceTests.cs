@@ -1,11 +1,11 @@
 using System;
-using System.Linq; 
-using Microsoft.VisualStudio.TestTools.UnitTesting; 
-using Moq; 
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Lab5_Elijah_Mckeehan.Services;
 using Lab5_Elijah_Mckeehan.Shared;
 using Lab5_Elijah_Mckeehan.Server.Controllers;
-    
+
 namespace Lab_6___Tests
 {
     [TestClass]
@@ -14,9 +14,13 @@ namespace Lab_6___Tests
         private Mock<IMessageService> _mockMessageService;
         private LibraryService _service;
 
+        // A TestContext is provided to each test method by MSTest
+        public TestContext TestContext { get; set; }
+
         [TestInitialize]
         public void TestInitialize()
         {
+            // Initialize mock and service for each test to ensure isolation
             _mockMessageService = new Mock<IMessageService>();
             _service = new LibraryService(_mockMessageService.Object);
             _service.LoadBooks();
@@ -126,7 +130,7 @@ namespace Lab_6___Tests
             _service.AddBook(borrowedBook);
             _service.AddBook(availableBook);
 
-            _service.BorrowBook(user.Id, borrowedBook.Id); 
+            _service.BorrowBook(user.Id, borrowedBook.Id);
 
             var results = _service.GetBorrowedBooks(user.Id);
 
@@ -137,7 +141,6 @@ namespace Lab_6___Tests
         [TestMethod]
         public void GetAvailableBooks_ShouldReturnUnborrowedOnly()
         {
-            // Load books before running the test
             _service.LoadBooks();
             _service.ClearBooks();
 
@@ -148,7 +151,7 @@ namespace Lab_6___Tests
             _service.AddBook(availableBook);
 
             _service.AddUser(CreateUser(1, "Alice", "alice@example.com"));
-            _service.BorrowBook(1, 1); 
+            _service.BorrowBook(1, 1);
 
             var results = _service.GetAvailableBooks();
 
@@ -161,13 +164,12 @@ namespace Lab_6___Tests
         {
             var user = new User { Name = "NewUser", Email = "new@example.com" };
 
-            _service.AddUser(user); // Add user
+            _service.AddUser(user);
 
             var addedUser = _service.GetUsers().FirstOrDefault(u => u.Email == "new@example.com");
             Assert.IsNotNull(addedUser);
             Assert.AreEqual("NewUser", addedUser.Name);
 
-            // Verify no error messages were added after adding the user
             _mockMessageService.Verify(m => m.AddMessage(It.Is<string>(s => s.Contains("❌"))), Times.Never);
         }
 
@@ -236,24 +238,20 @@ namespace Lab_6___Tests
             _service.AddUser(user2);
             _service.AddBook(book);
 
-            // First borrow by User1
             _service.BorrowBook(user1.Id, book.Id);
 
             var user1BorrowedBooks = _service.GetBorrowedBooks(user1.Id);
             Assert.AreEqual(1, user1BorrowedBooks.Count);
-            Assert.AreEqual(book.Id, user1BorrowedBooks.First().Id); 
+            Assert.AreEqual(book.Id, user1BorrowedBooks.First().Id);
 
-            // Attempt to double borrow by User1
             _service.BorrowBook(user1.Id, book.Id);
             var user1DoubleBorrowedBooks = _service.GetBorrowedBooks(user1.Id);
             Assert.AreEqual(1, user1DoubleBorrowedBooks.Count);
 
-            // Attempt borrow by User2 (should fail)
             _service.BorrowBook(user2.Id, book.Id);
             var user2BorrowedBooks = _service.GetBorrowedBooks(user2.Id);
             Assert.AreEqual(0, user2BorrowedBooks.Count);
 
-            // Second attempt by User2
             _service.BorrowBook(user2.Id, book.Id);
             var user2DoubleBorrowedBooks = _service.GetBorrowedBooks(user2.Id);
             Assert.AreEqual(0, user2DoubleBorrowedBooks.Count);
