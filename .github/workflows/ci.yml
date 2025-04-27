@@ -18,10 +18,12 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-        
-    - name: Add NuGet.org source
+
+    - name: Add NuGet.org source (if not already added)
       run: |
-        dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org
+        if ! dotnet nuget list source | Select-String -Pattern 'nuget.org'; then
+          dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org
+        fi
         
     - name: Restore dependencies
       run: |
