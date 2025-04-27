@@ -32,6 +32,3 @@ jobs:
     - name: Run tests
       run: |
         dotnet test "Lab 6 - Tests.csproj" --no-build --verbosity normal
-
-      - name: Run tests
-        run: dotnet test "Lab 6 - Tests.csproj" --no-build --verbosity normal
