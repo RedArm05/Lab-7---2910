@@ -21,10 +21,10 @@ jobs:
 
     - name: Add NuGet.org source (if not already added)
       run: |
-        if ! dotnet nuget list source | Select-String -Pattern 'nuget.org'; then
+        if (-not (dotnet nuget list source | Select-String -Pattern 'nuget.org')) {
           dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org
-        fi
-        
+        }
+
     - name: Restore dependencies
       run: |
         dotnet restore "Lab5 - Elijah Mckeehan/Lab5 - Elijah Mckeehan.csproj"
@@ -35,6 +35,9 @@ jobs:
         dotnet build "Lab5 - Elijah Mckeehan/Lab5 - Elijah Mckeehan.csproj" --no-restore
         dotnet build "Lab 6 - Tests/Lab 6 - Tests.csproj" --no-restore
 
+    - name: Run tests
+      run: |
+        dotnet test "Lab 6 - Tests/LibraryServiceTests.cs" --no-build --verbosity norma
     - name: Run tests
       run: |
         dotnet test "Lab 6 - Tests/LibraryServiceTests.cs" --no-build --verbosity normal
