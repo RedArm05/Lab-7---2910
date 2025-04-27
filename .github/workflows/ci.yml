@@ -18,7 +18,11 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-
+        
+    - name: Add NuGet.org source
+      run: |
+        dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org
+        
     - name: Restore dependencies
       run: |
         dotnet restore "Lab5 - Elijah Mckeehan/Lab5 - Elijah Mckeehan.csproj"
