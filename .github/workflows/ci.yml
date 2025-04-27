@@ -27,8 +27,8 @@ jobs:
 
     - name: Restore dependencies
       run: |
-        dotnet restore "Lab5 - Elijah Mckeehan/Lab5 - Elijah Mckeehan.csproj"
-        dotnet restore "Lab 6 - Tests/Lab 6 - Tests.csproj"
+        dotnet restore "Lab5 - Elijah Mckeehan/Lab5 - Elijah Mckeehan.csproj" --source https://api.nuget.org/v3/index.json
+        dotnet restore "Lab 6 - Tests/Lab 6 - Tests.csproj" --source https://api.nuget.org/v3/index.json
 
     - name: Build projects
       run: |
