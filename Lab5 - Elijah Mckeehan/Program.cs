@@ -3,6 +3,7 @@ using Lab5_Elijah_Mckeehan.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Register services
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -13,15 +14,16 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error"); 
-    app.UseHsts(); 
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
 }
 
-app.UseHttpsRedirection(); 
-app.UseStaticFiles(); 
-app.UseAntiforgery(); 
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseAntiforgery();
 
-builder.Services.AddRazorComponents()
-    .AddInteractiveComponents<App>();
+// Configure Razor Components
+app.MapRazorComponents()
+   .AddInteractiveComponents<App>();
 
-app.Run(); 
+app.Run();
