@@ -100,13 +100,13 @@ namespace Lab5_Elijah_Mckeehan.Services
             }
         }
 
-        public void LoadUsers(string filePath)
+        public void LoadUsers()
         {
-            if (!File.Exists(filePath)) return;
-        
+            if (!File.Exists(UsersFilePath)) return;
+            
             try
             {
-                using var reader = new StreamReader(filePath);
+                using var reader = new StreamReader(UsersFilePath);
                 using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
                     HasHeaderRecord = true
@@ -120,7 +120,6 @@ namespace Lab5_Elijah_Mckeehan.Services
                 _messageService.AddMessage($"Error loading users: {ex.Message}");
             }
         }
-
         public void LoadBorrowedBooks()
         {
             if (File.Exists(borrowedBooksFile))
@@ -255,16 +254,16 @@ namespace Lab5_Elijah_Mckeehan.Services
             }
         }
 
-        public void SaveUsers(List<User> users, string filePath)
+        public void SaveUsers(List<User> users)
         {
             try
             {
-                using var writer = new StreamWriter(filePath);
+                using var writer = new StreamWriter(UsersFilePath);
                 using var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
                     HasHeaderRecord = true
                 });
-        
+                
                 csv.WriteRecords(users);
             }
             catch (Exception ex)
