@@ -39,20 +39,16 @@
 @code {
     private void ReloadPage()
     {
-        // Reload the page (or redirect as needed)
-        NavigationManager.NavigateTo(NavigationManager, forceLoad: true);
+        Navigation.NavigateTo("/", forceLoad: true);
     }
 
-    private void DismissError()
+    private async Task DismissError()
     {
-        var errorDiv = document.getElementById("blazor-error-ui");
-        if (errorDiv != null)
-        {
-            errorDiv.style.display = "none";
-        }
+        await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('blazor-error-ui').style.display = 'none';");
     }
-    private async Task GetDocumentTitle()
+
+    private async Task<string> GetDocumentTitle()
     {
-        await JSRuntime.InvokeVoidAsync("eval", "document.title");
+        return await JSRuntime.InvokeAsync<string>("eval", "document.title");
     }
 }
