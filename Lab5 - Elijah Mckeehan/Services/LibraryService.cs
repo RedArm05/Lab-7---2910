@@ -284,7 +284,7 @@ namespace Lab5_Elijah_Mckeehan.Services
             user.Id = users.Any() ? users.Max(u => u.Id) + 1 : 1;
             users.Add(user);
 
-            SaveUsers(users); // Save after adding
+            SaveUsers(List<User> users); // Save after adding
 
             _messageService.AddMessage($"User {user.Name} added with ID {user.Id}");
         }
@@ -347,7 +347,7 @@ namespace Lab5_Elijah_Mckeehan.Services
             {
                 existingUser.Name = updatedUser.Name;
                 existingUser.Email = updatedUser.Email;
-                SaveUsers(users); // Save changes after editing
+                SaveUsers(List<User> users); // Save changes after editing
             }
         }
 
@@ -357,7 +357,7 @@ namespace Lab5_Elijah_Mckeehan.Services
             if (userToRemove != null)
             {
                 users.Remove(userToRemove);
-                SaveUsers(users); // Sync save
+                SaveUsers(List<User> users); // Sync save
             }
         }
 
