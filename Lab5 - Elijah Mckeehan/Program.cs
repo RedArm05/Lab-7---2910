@@ -4,17 +4,13 @@ using Lab5_Elijah_Mckeehan.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register services
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
-builder.Services.AddSingleton<ILibraryService, LibraryService>();
-builder.Services.AddSingleton<IMessageService, MessageService>();
-
-builder.RootComponents.Add<App>("#app");
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor(); 
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -23,6 +19,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseAntiforgery();
+
+app.UseRouting();
+
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
 
 app.Run();
