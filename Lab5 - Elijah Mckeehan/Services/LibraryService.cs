@@ -31,6 +31,7 @@ namespace Lab5_Elijah_Mckeehan.Services
         void SaveBorrowedBooks();
         Dictionary<int, List<int>> GetAllBorrowedBooks();
         void ClearBorrowedBooks();
+        void LoadUsers(string filePath);
     }
 
     public class LibraryService : ILibraryService
