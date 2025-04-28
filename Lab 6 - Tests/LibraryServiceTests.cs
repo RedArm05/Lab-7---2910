@@ -21,7 +21,7 @@ namespace Lab_6___Tests
             _mockMessageService = new Mock<IMessageService>();
             _service = new LibraryService(_mockMessageService.Object);
             _service.LoadBooks();
-            _service.LoadUsers();
+            _service.LoadUsers(tempFilePath);
             _service.ClearBooks();
             _service.ClearUsers();
         }
@@ -138,7 +138,7 @@ namespace Lab_6___Tests
         [TestMethod]
         public void GetAvailableBooks_ShouldReturnUnborrowedOnly()
         {
-            _service.LoadBooks();
+            _service.LoadUsers(tempFilePath);
             _service.ClearBooks();
 
             var borrowedBook = CreateBook(1, "Borrowed", "Author", "123");
