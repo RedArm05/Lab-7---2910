@@ -100,18 +100,18 @@ namespace Lab5_Elijah_Mckeehan.Services
             }
         }
 
-        public void LoadUsers()
+        public void LoadUsers(string filePath)
         {
-            if (!File.Exists(UsersFilePath)) return;
-
+            if (!File.Exists(filePath)) return;
+        
             try
             {
-                using var reader = new StreamReader(UsersFilePath);
+                using var reader = new StreamReader(filePath);
                 using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
                     HasHeaderRecord = true
                 });
-
+        
                 users = csv.GetRecords<User>().ToList();
                 _messageService.AddMessage($"Loaded {users.Count} users from CSV.");
             }
@@ -255,23 +255,24 @@ namespace Lab5_Elijah_Mckeehan.Services
             }
         }
 
-        public void SaveUsers(List<User> users)
+        public void SaveUsers(List<User> users, string filePath)
         {
             try
             {
-                using var writer = new StreamWriter(UsersFilePath);
+                using var writer = new StreamWriter(filePath);
                 using var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
                     HasHeaderRecord = true
                 });
-
-                csv.WriteRecords(users); // Save users to CSV
+        
+                csv.WriteRecords(users);
             }
             catch (Exception ex)
             {
                 _messageService.AddMessage($"Error saving users: {ex.Message}");
             }
         }
+
 
         public void AddUser(User user)
         {
