@@ -1,6 +1,7 @@
 using Moq;
 using Lab5_Elijah_Mckeehan.Services;
 using Lab5_Elijah_Mckeehan.Shared;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lab_6___Tests
 {
@@ -225,6 +226,7 @@ namespace Lab_6___Tests
         }
 
         [TestMethod]
+       [TestMethod]
         public void BorrowBook_ShouldNotAllowDoubleBorrow()
         {
             var user1 = CreateUser(1, "User1", "u1@mail.com");
@@ -243,17 +245,15 @@ namespace Lab_6___Tests
             Assert.AreEqual(1, user1BorrowedBooks.Count);
             Assert.AreEqual(book.Id, user1BorrowedBooks.First().Id);
 
+            // Attempt to borrow again with same user
             _service.BorrowBook(user1.Id, book.Id);
             var user1DoubleBorrowedBooks = _service.GetBorrowedBooks(user1.Id);
-            Assert.AreEqual(1, user1DoubleBorrowedBooks.Count);
+            Assert.AreEqual(1, user1DoubleBorrowedBooks.Count); 
 
+            // Attempt to borrow with another user
             _service.BorrowBook(user2.Id, book.Id);
             var user2BorrowedBooks = _service.GetBorrowedBooks(user2.Id);
-            Assert.AreEqual(0, user2BorrowedBooks.Count);
-
-            _service.BorrowBook(user2.Id, book.Id);
-            var user2DoubleBorrowedBooks = _service.GetBorrowedBooks(user2.Id);
-            Assert.AreEqual(0, user2DoubleBorrowedBooks.Count);
+            Assert.AreEqual(0, user2BorrowedBooks.Count); // Should be 0 because already borrowed
         }
 
         [TestMethod]
