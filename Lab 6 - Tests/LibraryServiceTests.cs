@@ -212,34 +212,35 @@ namespace Lab_6___Tests
             Assert.IsTrue(books.Any(b => b.Id == 1 && b.Title == "Persistent"));
         }
 
-            [TestMethod]
-    public void SaveAndLoadUsers_ShouldPersistData()
-    {
-        var tempFilePath = Path.GetTempFileName(); // create a temp file
-    
-        try
+                   [TestMethod]
+        public void SaveAndLoadUsers_ShouldPersistData()
         {
-            var user = new User { Name = "Persistent User", Email = "user@mail.com" };
-            _service.AddUser(user);
-            
-            // Save users to the temp file
-            _service.SaveUsers(_service.GetUsers(), tempFilePath);
-    
-            // Create a new service instance
-            var newService = new LibraryService(_mockMessageService.Object);
-            
-            // Load users from the same temp file
-            newService.LoadUsers(tempFilePath);
-            var loadedUsers = newService.GetUsers();
-    
-            Assert.IsTrue(loadedUsers.Any(u => u.Name == "Persistent User"));
+            var tempFilePath = Path.GetTempFileName(); // create a temp file
+        
+            try
+            {
+                var user = new User { Name = "Persistent User", Email = "user@mail.com" };
+                _service.AddUser(user);
+        
+                // Save users to the temp file
+                _service.SaveUsers(_service.GetUsers(), tempFilePath);
+        
+                // Create a new service instance
+                var newService = new LibraryService(_mockMessageService.Object);
+        
+                newService.LoadUsers(tempFilePath);
+        
+                var loadedUsers = newService.GetUsers();
+        
+                Assert.IsNotNull(loadedUsers);
+                Assert.IsTrue(loadedUsers.Any(u => u.Name == "Persistent User"), "Loaded users did not contain the expected user.");
+            }
+            finally
+            {
+                if (File.Exists(tempFilePath))
+                    File.Delete(tempFilePath);
+            }
         }
-        finally
-        {
-            if (File.Exists(tempFilePath))
-                File.Delete(tempFilePath);
-        }
-    }
 
        [TestMethod]
         public void BorrowBook_ShouldNotAllowDoubleBorrow()
