@@ -1,18 +1,20 @@
-@using Lab5_Elijah_Mckeehan.Components
-@using Lab5_Elijah_Mckeehan.Shared
-@using Lab5_Elijah_Mckeehan.Layout
-@using Microsoft.AspNetCore.Components
-@using Microsoft.AspNetCore.Components.Web
+<!DOCTYPE html>
+<html lang="en">
 
-<Router AppAssembly="@typeof(Program).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" />
-    </Found>
-    <NotFound>
-        <p>Sorry, the page you're looking for could not be found.</p>
-    </NotFound>
-</Router>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="Lab5 - Elijah Mckeehan.styles.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <HeadOutlet @rendermode="InteractiveServer" />
+</head>
 
-@code {
-    private RouteData routeData;
-}
+<body>
+    <Routes @rendermode="InteractiveServer" />
+    <script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>
