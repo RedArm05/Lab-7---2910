@@ -24,7 +24,8 @@ app.UseStaticFiles();
 app.UseAntiforgery();
 
 // Configure Razor Components
-builder.Services.AddRazorComponents<App>()
-    .AddInteractiveComponents();
+builder.Services.AddRazorComponents()
+    .AddInteractiveComponents()
+    .AddComponent<App>();
 
 app.Run();
