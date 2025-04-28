@@ -1,4 +1,4 @@
-﻿using CsvHelper.Configuration;
+using CsvHelper.Configuration;
 using CsvHelper;
 using System.Text.Json;
 using System.Globalization;
