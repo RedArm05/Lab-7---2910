@@ -25,7 +25,6 @@ app.UseAntiforgery();
 
 // Configure Razor Components
 builder.Services.AddRazorComponents()
-    .AddInteractiveComponents()
     .AddComponent<App>();
 
 app.Run();
