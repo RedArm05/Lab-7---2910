@@ -1,23 +1,14 @@
-public class App
-{
-<!DOCTYPE html>
-<html lang="en">
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@using Lab5_Elijah_Mckeehan
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="/" />
-    <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="app.css" />
-    <link rel="stylesheet" href="Lab5 - Elijah Mckeehan.styles.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <HeadOutlet @rendermode="InteractiveServer" />
-</head>
-
-<body>
-    <Routes @rendermode="InteractiveServer" />
-    <script src="_framework/blazor.web.js"></script>
-</body>
-
-</html>
-}
+<App>
+    <Router AppAssembly="typeof(App).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" />
+            <FocusOnNavigate RouteData="@routeData" />
+        </Found>
+        <NotFound>
+            <p>Sorry, there is nothing at this address.</p>
+        </NotFound>
+    </Router>
+</App>
