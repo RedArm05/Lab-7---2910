@@ -11,6 +11,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddSingleton<ILibraryService, LibraryService>();
 builder.Services.AddSingleton<IMessageService, MessageService>();
 
+builder.RootComponents.Add<App>("#app");
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -22,8 +24,5 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
-
-// Configure Razor Components
-builder.RootComponents.Add<App>("#app");
 
 app.Run();
