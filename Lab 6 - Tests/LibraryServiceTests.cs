@@ -169,6 +169,7 @@ namespace Lab_6___Tests
             _mockMessageService.Verify(m => m.AddMessage(It.Is<string>(s => s.Contains("❌"))), Times.Never);
         }
 
+
         [TestMethod]
         public void EditUser_ShouldModifyUser()
         {
@@ -212,8 +213,9 @@ namespace Lab_6___Tests
         [TestMethod]
         public void SaveAndLoadUsers_ShouldPersistData()
         {
-            var user = CreateUser(1, "Persistent User", "user@mail.com");
+            var user = new User { Name = "Persistent User", Email = "user@mail.com" };
             _service.AddUser(user);
+            _service.SaveUsers(_service.GetUsers());
 
             var newService = new LibraryService(_mockMessageService.Object);
             newService.LoadUsers();
