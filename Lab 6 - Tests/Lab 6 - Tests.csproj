@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Lab_6___Tests</RootNamespace>
-    <LangVersion>latest</LangVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+   <PropertyGroup>
+   <TargetFramework>net8.0</TargetFramework>
+   <RootNamespace>Lab_6___Tests</RootNamespace>
+   <LangVersion>latest</LangVersion>
+   <ImplicitUsings>enable</ImplicitUsings>
+   <Nullable>enable</Nullable>
+ </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Bunit" Version="1.39.5" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.6.4" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.6.4" />
-    <PackageReference Include="Moq" Version="4.20.72" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.11" />
-  </ItemGroup>
+ <ItemGroup>
+   <PackageReference Include="Bunit" Version="1.39.5" />
+   <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+  <PackageReference Include="MSTest.TestAdapter" Version="3.8.3" />
+  <PackageReference Include="MSTest.TestFramework" Version="3.8.3" />
+  <PackageReference Include="Moq" Version="4.20.72" />
+   <PackageReference Include="MSTest" Version="3.8.3" />
+ </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../Lab5 - Elijah Mckeehan/Lab5 - Elijah Mckeehan.csproj" />
