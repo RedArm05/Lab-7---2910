@@ -255,17 +255,18 @@ namespace Lab5_Elijah_Mckeehan.Services
             }
         }
 
-        public void SaveUsers(List<User> users, string filePath)
+        public void SaveUsers(List<User> users)
         {
             try
             {
-                using var writer = new StreamWriter(filePath);
+                using var writer = new StreamWriter(UsersFilePath);
                 using var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
                     HasHeaderRecord = true
                 });
         
-                csv.WriteRecords(users);
+                csv.WriteRecords(users); // Write users to CSV file
+                _messageService.AddMessage($"Saved {users.Count} users.");
             }
             catch (Exception ex)
             {
