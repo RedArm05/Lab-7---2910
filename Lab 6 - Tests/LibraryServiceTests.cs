@@ -161,10 +161,8 @@ namespace Lab_6___Tests
         {
             // Arrange
             var user = new User { Name = "NewUser", Email = "new@example.com" };
-    
             // Act
             _service.AddUser(user);
-    
             // Assert
             var addedUser = _service.GetUsers().FirstOrDefault(u => u.Email == "new@example.com");
             Assert.IsNotNull(addedUser);
