@@ -2,6 +2,8 @@ using Moq;
 using Lab5_Elijah_Mckeehan.Services;
 using Lab5_Elijah_Mckeehan.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
+using System.Linq;
 
 namespace Lab_6___Tests
 {
@@ -10,6 +12,7 @@ namespace Lab_6___Tests
     {
         private Mock<IMessageService> _mockMessageService;
         private LibraryService _service;
+        private string tempFilePath;
 
         // A TestContext is provided to each test method by MSTest
         public TestContext TestContext { get; set; }
@@ -24,6 +27,9 @@ namespace Lab_6___Tests
             _service.LoadUsers(tempFilePath);
             _service.ClearBooks();
             _service.ClearUsers();
+
+            // Set tempFilePath to a temporary file for user persistence tests
+            tempFilePath = Path.GetTempFileName();
         }
 
         private Book CreateBook(int id, string title, string author, string isbn, bool isBorrowed = false, int? borrowedBy = null)
@@ -156,7 +162,7 @@ namespace Lab_6___Tests
             Assert.AreEqual("Available", results[0].Title);
         }
 
-             [TestMethod]
+        [TestMethod]
         public void AddUser_ShouldAddUser()
         {
             // Arrange
@@ -167,10 +173,9 @@ namespace Lab_6___Tests
             var addedUser = _service.GetUsers().FirstOrDefault(u => u.Email == "new@example.com");
             Assert.IsNotNull(addedUser);
             Assert.AreEqual("NewUser", addedUser.Name);
-    
+
             _mockMessageService.Verify(m => m.AddMessage(It.Is<string>(s => s.Contains("❌"))), Times.Never);
         }
-
 
         [TestMethod]
         public void EditUser_ShouldModifyUser()
@@ -212,26 +217,24 @@ namespace Lab_6___Tests
             Assert.IsTrue(books.Any(b => b.Id == 1 && b.Title == "Persistent"));
         }
 
-                   [TestMethod]
+        [TestMethod]
         public void SaveAndLoadUsers_ShouldPersistData()
         {
-            var tempFilePath = Path.GetTempFileName(); // create a temp file
-        
             try
             {
                 var user = new User { Name = "Persistent User", Email = "user@mail.com" };
                 _service.AddUser(user);
-        
+
                 // Save users to the temp file
                 _service.SaveUsers(_service.GetUsers(), tempFilePath);
-        
+
                 // Create a new service instance
                 var newService = new LibraryService(_mockMessageService.Object);
-        
+
                 newService.LoadUsers(tempFilePath);
-        
+
                 var loadedUsers = newService.GetUsers();
-        
+
                 Assert.IsNotNull(loadedUsers);
                 Assert.IsTrue(loadedUsers.Any(u => u.Name == "Persistent User"), "Loaded users did not contain the expected user.");
             }
@@ -242,7 +245,7 @@ namespace Lab_6___Tests
             }
         }
 
-       [TestMethod]
+        [TestMethod]
         public void BorrowBook_ShouldNotAllowDoubleBorrow()
         {
             var user1 = CreateUser(1, "User1", "u1@mail.com");
@@ -264,7 +267,7 @@ namespace Lab_6___Tests
             // Attempt to borrow again with same user
             _service.BorrowBook(user1.Id, book.Id);
             var user1DoubleBorrowedBooks = _service.GetBorrowedBooks(user1.Id);
-            Assert.AreEqual(1, user1DoubleBorrowedBooks.Count); 
+            Assert.AreEqual(1, user1DoubleBorrowedBooks.Count);
 
             // Attempt to borrow with another user
             _service.BorrowBook(user2.Id, book.Id);
