@@ -225,7 +225,6 @@ namespace Lab_6___Tests
             Assert.IsTrue(loadedUsers.Any(u => u.Name == "Persistent User"));
         }
 
-        [TestMethod]
        [TestMethod]
         public void BorrowBook_ShouldNotAllowDoubleBorrow()
         {
