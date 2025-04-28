@@ -224,17 +224,18 @@ namespace Lab_6___Tests
             {
                 var user = new User { Name = "Persistent User", Email = "user@mail.com" };
                 _service.AddUser(user);
-
-                // Save users to the temp file
+        
+                // Save users to the temp file (pass tempFilePath to SaveUsers)
                 _service.SaveUsers(_service.GetUsers(), tempFilePath);
-
+        
                 // Create a new service instance
                 var newService = new LibraryService(_mockMessageService.Object);
-
+        
+                // Load users from the temp file (pass tempFilePath to LoadUsers)
                 newService.LoadUsers(tempFilePath);
-
+        
                 var loadedUsers = newService.GetUsers();
-
+        
                 Assert.IsNotNull(loadedUsers);
                 Assert.IsTrue(loadedUsers.Any(u => u.Name == "Persistent User"), "Loaded users did not contain the expected user.");
             }
