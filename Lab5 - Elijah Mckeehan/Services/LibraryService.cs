@@ -31,7 +31,7 @@ namespace Lab5_Elijah_Mckeehan.Services
         void SaveBorrowedBooks();
         Dictionary<int, List<int>> GetAllBorrowedBooks();
         void ClearBorrowedBooks();
-        void LoadUsers(UsersFilePath);
+        void LoadUsers(string filePath);
     }
 
     public class LibraryService : ILibraryService
@@ -101,13 +101,12 @@ namespace Lab5_Elijah_Mckeehan.Services
             }
         }
 
-        public void LoadUsers(UsersFilePath)
+        public void LoadUsers(string filePath)
         {
-            if (!File.Exists(UsersFilePath)) return;
-        
+            if (!File.Exists(filePath)) return;
             try
             {
-                using var reader = new StreamReader(UsersFilePath);
+                using var reader = new StreamReader(filePath);
                 using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
                     HasHeaderRecord = true
