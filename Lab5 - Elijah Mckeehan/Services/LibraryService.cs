@@ -208,6 +208,12 @@ namespace Lab5_Elijah_Mckeehan.Services
 
         public List<Book> GetBooks() => books;
 
+
+        public List<User> GetUsersInMemory()
+        {
+            return users;
+        }
+        
         public List<User> GetUsers()
         {
             if (!File.Exists(UsersFilePath))
