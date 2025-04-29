@@ -23,8 +23,14 @@ namespace Lab_6___Tests
             // Initialize mock and service for each test to ensure isolation
             _mockMessageService = new Mock<IMessageService>();
             _service = new LibraryService(_mockMessageService.Object);
+             tempFilePath = Path.GetTempFileName();
+        // fake CSV with user data
+        var csvContent = "Name,Email\n" +
+                         "User1,user1@example.com\n" +
+                         "User2,user2@example.com\n";
+        File.WriteAllText(tempFilePath, csvContent);
             _service.LoadBooks();
-            _service.LoadUsers();
+            _service.LoadUsers(tempFilePath);
             _service.ClearBooks();
             _service.ClearUsers();
 
