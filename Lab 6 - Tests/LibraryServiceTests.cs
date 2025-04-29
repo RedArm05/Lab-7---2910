@@ -178,7 +178,7 @@ namespace Lab_6___Tests
             _service.AddUser(user);
     
             // Assert
-            var addedUser = _service.GetUsers().FirstOrDefault(u => u.Email == "new@example.com");
+            var addedUser = _service.GetUsersInMemory().FirstOrDefault(u => u.Email == "new@example.com");
             Assert.IsNotNull(addedUser);
             Assert.AreEqual("NewUser", addedUser.Name);
     
