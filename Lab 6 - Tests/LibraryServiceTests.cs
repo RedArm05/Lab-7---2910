@@ -226,7 +226,7 @@ namespace Lab_6___Tests
                 _service.AddUser(user);
         
                 // Save users to the temp file (pass tempFilePath to SaveUsers)
-                _service.SaveUsers(_service.GetUsers(), tempFilePath);
+                _service.SaveUsers(_service.GetUsers());
         
                 // Create a new service instance
                 var newService = new LibraryService(_mockMessageService.Object);
