@@ -348,13 +348,13 @@ namespace Lab5_Elijah_Mckeehan.Services
 
         public void EditUser(User updatedUser)
         {
-            var users = GetUsers(); // Fetch users
             var existingUser = users.FirstOrDefault(u => u.Id == updatedUser.Id);
             if (existingUser != null)
             {
                 existingUser.Name = updatedUser.Name;
                 existingUser.Email = updatedUser.Email;
-                SaveUsers(users); // Save changes after editing
+                SaveUsers(users); 
+                _messageService.AddMessage($"User {existingUser.Id} updated.");
             }
         }
 
