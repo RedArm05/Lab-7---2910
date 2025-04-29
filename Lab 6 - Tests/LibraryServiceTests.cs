@@ -24,7 +24,7 @@ namespace Lab_6___Tests
             _mockMessageService = new Mock<IMessageService>();
             _service = new LibraryService(_mockMessageService.Object);
             _service.LoadBooks();
-            _service.LoadUsers(tempFilePath);
+            _service.LoadUsers();
             _service.ClearBooks();
             _service.ClearUsers();
 
@@ -167,13 +167,15 @@ namespace Lab_6___Tests
         {
             // Arrange
             var user = new User { Name = "NewUser", Email = "new@example.com" };
+    
             // Act
             _service.AddUser(user);
+    
             // Assert
             var addedUser = _service.GetUsers().FirstOrDefault(u => u.Email == "new@example.com");
             Assert.IsNotNull(addedUser);
             Assert.AreEqual("NewUser", addedUser.Name);
-
+    
             _mockMessageService.Verify(m => m.AddMessage(It.Is<string>(s => s.Contains("❌"))), Times.Never);
         }
 
